@@ -1,14 +1,13 @@
 package com.laarizag.Inventory.controller;
 
+import com.laarizag.Inventory.dto.AddProductToStoreRequest;
 import com.laarizag.Inventory.model.Store;
+import com.laarizag.Inventory.service.ProductService;
 import com.laarizag.Inventory.service.StoreService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -18,12 +17,21 @@ import java.util.List;
 public class StoreController {
 
     @Autowired
-    private StoreService service;
+    private StoreService storeService;
+
+    @Autowired
+    private ProductService productService;
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public List<Store> getStores() {
-        return service.getAllStores();
+        return storeService.getAllStores();
+    }
+
+    @PostMapping("/store/{id}/addProduct")
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    public Store assignProductToStore(@PathVariable Long id, @RequestBody AddProductToStoreRequest request) {
+        return storeService.addProductToStore(id, productService.getProductById(request.getProductId()));
     }
 
 }

@@ -2,10 +2,8 @@ package com.laarizag.Inventory.model;
 
 import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.Set;
 
 @Builder
 @AllArgsConstructor
@@ -17,10 +15,14 @@ public class Product {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "productId")
     private Long id;
     private String cod;
     private String name;
     private double price;
     private int stock;
+
+    @ManyToMany(mappedBy = "productsInStore")
+    private Set<Store> availableStores;
 
 }
