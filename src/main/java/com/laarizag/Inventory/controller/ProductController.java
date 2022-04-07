@@ -1,5 +1,6 @@
 package com.laarizag.Inventory.controller;
 
+import com.laarizag.Inventory.dto.UpdateProductStockRequest;
 import com.laarizag.Inventory.model.Product;
 import com.laarizag.Inventory.service.ProductService;
 import lombok.AllArgsConstructor;
@@ -7,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @AllArgsConstructor
@@ -29,4 +31,9 @@ public class ProductController {
         return productService.getProductById(id);
     }
 
+    @PutMapping(value = "/{id}/stock")
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    public void updateProductStock(@PathVariable Long id, @Valid @RequestBody UpdateProductStockRequest updateProductStockRequest) {
+        productService.updateProductStock(id, updateProductStockRequest);
+    }
 }

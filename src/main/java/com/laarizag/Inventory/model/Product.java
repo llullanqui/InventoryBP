@@ -1,5 +1,9 @@
 package com.laarizag.Inventory.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.*;
 
 import javax.persistence.*;
@@ -11,6 +15,7 @@ import java.util.Set;
 @Getter
 @Setter
 @Entity
+@JsonSerialize
 public class Product {
 
     @Id
@@ -22,7 +27,9 @@ public class Product {
     private double price;
     private int stock;
 
+
     @ManyToMany(mappedBy = "productsInStore")
+    @JsonIgnore
     private Set<Store> availableStores;
 
 }

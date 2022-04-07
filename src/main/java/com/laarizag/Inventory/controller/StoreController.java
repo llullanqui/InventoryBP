@@ -28,10 +28,10 @@ public class StoreController {
         return storeService.getAllStores();
     }
 
-    @PostMapping("/store/{id}/addProduct")
+    @PostMapping("/{id}/addProduct")
     @ResponseStatus(HttpStatus.ACCEPTED)
-    public Store assignProductToStore(@PathVariable Long id, @RequestBody AddProductToStoreRequest request) {
-        return storeService.addProductToStore(id, productService.getProductById(request.getProductId()));
+    public void assignProductToStore(@PathVariable Long id, @RequestBody AddProductToStoreRequest request) {
+        storeService.addProductToStore(id, productService.getProductById(request.getProductId()));
     }
 
 }

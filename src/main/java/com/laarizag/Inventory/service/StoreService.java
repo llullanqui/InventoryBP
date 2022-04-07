@@ -21,10 +21,9 @@ public class StoreService {
         return storeRepository.findAll();
     }
 
-    public Store addProductToStore(Long storeId, Product product) {
+    public void addProductToStore(Long storeId, Product product) {
         var store = storeRepository.getById(storeId);
         store.getProductsInStore().add(product);
         storeRepository.save(store);
-        return store;
     }
 }

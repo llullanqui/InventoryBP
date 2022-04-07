@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @AllArgsConstructor
 @RestController
 @RequestMapping("/client")
@@ -14,6 +16,12 @@ public class ClientController {
 
     @Autowired
     private ClientService clientService;
+
+    @GetMapping
+    @ResponseStatus(HttpStatus.OK)
+    public List<Client> getClients() {
+        return clientService.getClients();
+    }
 
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
@@ -23,14 +31,14 @@ public class ClientController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.OK)
-    public Client createClient(@RequestBody Client newClient) {
-        return clientService.createNewClient(newClient);
+    public void createClient(@RequestBody Client newClient) {
+        clientService.createNewClient(newClient);
     }
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public Client updateClient(@PathVariable Long id, @RequestBody Client newClient) {
-        return clientService.updateClient(id, newClient);
+    public void updateClient(@PathVariable Long id, @RequestBody Client newClient) {
+        clientService.updateClient(id, newClient);
     }
 
     @DeleteMapping("/{id}")

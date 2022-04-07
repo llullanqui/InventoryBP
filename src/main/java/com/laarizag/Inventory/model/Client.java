@@ -1,9 +1,9 @@
 package com.laarizag.Inventory.model;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.*;
 
 import javax.persistence.*;
-import java.sql.Blob;
 
 @Builder
 @AllArgsConstructor
@@ -11,6 +11,7 @@ import java.sql.Blob;
 @Getter
 @Setter
 @Entity
+@JsonSerialize
 public class Client {
 
     @Id

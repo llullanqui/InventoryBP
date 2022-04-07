@@ -15,7 +15,7 @@ public class UpdateProductStockRequest {
     private Long id;
 
     @NotNull
-    @Min(1)
+    @Min(value = 1, message = "Stock no puede ser 0 o menor.")
     private int stock;
 
 }

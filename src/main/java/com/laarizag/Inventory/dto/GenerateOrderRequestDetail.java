@@ -1,6 +1,5 @@
 package com.laarizag.Inventory.dto;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -10,9 +9,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
-public class AddProductToStoreRequest {
+public class GenerateOrderRequestDetail {
 
-    @JsonProperty("product_id")
-    private Long productId;
+    private Long store;
+    private Long product;
+    private int quantity;
 
 }
