@@ -6,7 +6,7 @@ import com.laarizag.Inventory.exception.ProductOutOfStockException;
 import com.laarizag.Inventory.model.Order;
 import com.laarizag.Inventory.model.OrderDetail;
 import com.laarizag.Inventory.repository.OrderDetailRepository;
-import com.laarizag.Inventory.repository.OrderRepository;
+import com.laarizag.Inventory.repository.OrderModelRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.stereotype.Service;
@@ -23,7 +23,7 @@ import java.util.Set;
 @RequiredArgsConstructor
 public class OrderService {
 
-    private final OrderRepository orderRepository;
+    private final OrderModelRepository orderRepository;
     private final OrderDetailRepository orderDetailRepository;
     private final ProductService productService;
     private final ClientService clientService;
@@ -33,8 +33,7 @@ public class OrderService {
         return orderRepository.findAll();
     }
 
-    @SneakyThrows
-    public void generateOrder(GenerateOrderRequest request) {
+    public void generateOrder(GenerateOrderRequest request) throws ProductOutOfStockException {
         var order = new Order();
 
         order.setClient(clientService.getClientById(request.getClient()));

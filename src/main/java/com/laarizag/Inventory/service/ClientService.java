@@ -29,7 +29,7 @@ public class ClientService {
         var client = new Client();
         client.setIdentification(request.getIdentification());
         client.setName(request.getName());
-        client.setPicture(request.getPicture());
+//        client.setPicture(request.getPicture());
         clientRepository.save(client);
     }
 
@@ -37,7 +37,7 @@ public class ClientService {
         var currentClient = clientRepository.getById(id);
         currentClient.setIdentification(request.getIdentification());
         currentClient.setName(request.getName());
-        currentClient.setPicture(request.getPicture());
+//        currentClient.setPicture(request.getPicture());
         clientRepository.save(currentClient);
     }
 

@@ -1,6 +1,7 @@
 package com.laarizag.Inventory.controller;
 
 import com.laarizag.Inventory.dto.GenerateOrderRequest;
+import com.laarizag.Inventory.exception.ProductOutOfStockException;
 import com.laarizag.Inventory.mapper.MapStructMapper;
 import com.laarizag.Inventory.model.Order;
 import com.laarizag.Inventory.service.OrderService;
@@ -26,7 +27,7 @@ public class OrderController {
     }
 
     @PostMapping
-    public void generateOrder(@RequestBody GenerateOrderRequest request) {
+    public void generateOrder(@RequestBody GenerateOrderRequest request) throws ProductOutOfStockException {
         orderService.generateOrder(request);
     }
 

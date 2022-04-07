@@ -24,9 +24,10 @@ public class Client {
     @Column(nullable = false)
     private String identification;
 
-    @Lob
-    @Basic(fetch = FetchType.LAZY)
-    private byte[] picture;
+//    @Lob
+//    @Column(name = "picture", columnDefinition = "BLOB")
+//    @Basic(fetch = FetchType.LAZY)
+//    private byte[] picture;
 
     @OneToMany(mappedBy = "client")
     @JsonIgnoreProperties(value = {"orders", "hibernateLazyInitializer", "handler"})
