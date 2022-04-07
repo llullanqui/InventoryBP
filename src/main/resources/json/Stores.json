@@ -1,0 +1,22 @@
+[
+    {
+      "id": 1,
+      "code": "store-1",
+      "name": "store-name-1"
+    },
+    {
+      "id": 2,
+      "code": "store-2",
+      "name": "store-name-2"
+    },
+    {
+      "id": 3,
+      "code": "store-3",
+      "name": "store-name-3"
+    },
+    {
+      "id": 4,
+      "code": "store-4",
+      "name": "store-name-4"
+    }
+]
