@@ -1,6 +1,5 @@
 package com.laarizag.Inventory.model;
 
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.*;
 
 import javax.persistence.*;
@@ -11,7 +10,6 @@ import javax.persistence.*;
 @Getter
 @Setter
 @Entity
-@JsonSerialize
 public class Client {
 
     @Id

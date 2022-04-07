@@ -28,7 +28,7 @@ public class ProductService {
         var product = productRepository.getById(id);
         product.setStock(request.getStock());
         productRepository.save(product);
-        return product;
+        return getProductById(id);
     }
 
     public Product addStock(Long id, int quantity) {

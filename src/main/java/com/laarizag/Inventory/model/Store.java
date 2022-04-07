@@ -1,11 +1,11 @@
 package com.laarizag.Inventory.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.*;
 
 import javax.persistence.*;
+import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Set;
 
 @Builder
@@ -14,8 +14,8 @@ import java.util.Set;
 @Getter
 @Setter
 @Entity
-@JsonSerialize
-public class Store {
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+public class Store implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -30,6 +30,7 @@ public class Store {
             joinColumns = @JoinColumn(name = "storeId"),
             inverseJoinColumns = @JoinColumn(name = "productId")
     )
-    private Set<Product> productsInStore;
+    @JsonIgnoreProperties({"available_stores","hibernateLazyInitializer", "handler"})
+    private Set<Product> productsInStore = new HashSet<>();
 
 }

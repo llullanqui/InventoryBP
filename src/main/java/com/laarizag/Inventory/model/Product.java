@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.*;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Set;
 
 @Builder
@@ -15,8 +16,8 @@ import java.util.Set;
 @Getter
 @Setter
 @Entity
-@JsonSerialize
-public class Product {
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+public class Product implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -29,7 +30,7 @@ public class Product {
 
 
     @ManyToMany(mappedBy = "productsInStore")
-    @JsonIgnore
+    @JsonIgnoreProperties(value = {"products_in_store", "hibernateLazyInitializer", "handler"})
     private Set<Store> availableStores;
 
 }

@@ -53,7 +53,7 @@ public class InventoryApplication {
 	CommandLineRunner loadStores(StoreRepository storeRepository) {
 		return args -> {
 			ObjectMapper mapper = new ObjectMapper();
-			TypeReference<List<Store>> typeReference = new TypeReference<>() {};
+			TypeReference<List<Store>> typeReference = new TypeReference<List<Store>>() {};
 			InputStream inputStream = TypeReference.class.getResourceAsStream("/json/Stores.json");
 			try {
 				List<Store> stores = mapper.readValue(inputStream,typeReference);

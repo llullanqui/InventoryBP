@@ -1,5 +1,8 @@
 package com.laarizag.Inventory.service;
 
+import com.laarizag.Inventory.dto.ClientCURequest;
+import com.laarizag.Inventory.dto.model.ClientDto;
+import com.laarizag.Inventory.mapper.MapStructMapper;
 import com.laarizag.Inventory.model.Client;
 import com.laarizag.Inventory.repository.ClientRepository;
 import lombok.RequiredArgsConstructor;
@@ -12,26 +15,30 @@ import java.util.List;
 public class ClientService {
 
     private final ClientRepository clientRepository;
+    private final MapStructMapper mapper;
 
     public List<Client> getClients() {
         return clientRepository.findAll();
     }
 
-    public Client getClientById(Long id) {
-        return clientRepository.getById(id);
+    public ClientDto getClientById(Long id) {
+        return mapper.clientToDto(clientRepository.getById(id));
     }
 
-    public Client createNewClient(Client client) {
-        return clientRepository.save(client);
+    public void createNewClient(ClientCURequest request) {
+        var client = new Client();
+        client.setIdentification(request.getIdentification());
+        client.setName(request.getName());
+        client.setPicture(request.getPicture());
+        clientRepository.save(client);
     }
 
-    public Client updateClient(Long id, Client client) {
+    public void updateClient(Long id, ClientCURequest request) {
         var currentClient = clientRepository.getById(id);
-        currentClient.setIdentification(client.getIdentification());
-        currentClient.setName(client.getName());
-        currentClient.setPicture(client.getPicture());
+        currentClient.setIdentification(request.getIdentification());
+        currentClient.setName(request.getName());
+        currentClient.setPicture(request.getPicture());
         clientRepository.save(currentClient);
-        return currentClient;
     }
 
     public void deleteClient(Long id) {
