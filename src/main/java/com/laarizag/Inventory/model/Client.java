@@ -1,8 +1,10 @@
 package com.laarizag.Inventory.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Builder
 @AllArgsConstructor
@@ -25,4 +27,8 @@ public class Client {
     @Lob
     @Basic(fetch = FetchType.LAZY)
     private byte[] picture;
+
+    @OneToMany(mappedBy = "client")
+    @JsonIgnoreProperties(value = {"orders", "hibernateLazyInitializer", "handler"})
+    private Set<Order> orders;
 }

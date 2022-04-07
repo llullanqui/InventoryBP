@@ -2,6 +2,7 @@ package com.laarizag.Inventory.controller;
 
 import com.laarizag.Inventory.dto.ClientCURequest;
 import com.laarizag.Inventory.dto.model.ClientDto;
+import com.laarizag.Inventory.mapper.MapStructMapper;
 import com.laarizag.Inventory.model.Client;
 import com.laarizag.Inventory.service.ClientService;
 import lombok.AllArgsConstructor;
@@ -20,6 +21,8 @@ public class ClientController {
     @Autowired
     private ClientService clientService;
 
+    private final MapStructMapper mapper;
+
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public List<Client> getClients() {
@@ -29,7 +32,7 @@ public class ClientController {
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public ClientDto getClient(@PathVariable Long id) {
-        return clientService.getClientById(id);
+        return mapper.clientToDto(clientService.getClientById(id) );
     }
 
     @PostMapping

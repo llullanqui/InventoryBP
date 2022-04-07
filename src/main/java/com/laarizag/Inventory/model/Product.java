@@ -28,9 +28,11 @@ public class Product implements Serializable {
     private double price;
     private int stock;
 
-
     @ManyToMany(mappedBy = "productsInStore")
     @JsonIgnoreProperties(value = {"products_in_store", "hibernateLazyInitializer", "handler"})
     private Set<Store> availableStores;
+
+    @OneToMany(mappedBy = "product")
+    private Set<OrderDetail> orderDetails;
 
 }

@@ -1,5 +1,7 @@
 package com.laarizag.Inventory.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 
 import javax.persistence.*;
@@ -17,20 +19,25 @@ public class OrderDetail {
     @Column(name = "orderDetailId")
     private Long id;
 
-    @MapsId
     @ManyToOne
-    @JoinColumn(name = "FK_Store", nullable = false, updatable = false)
+    @JoinColumn(name = "FK_Store_OrderDetail", nullable = false, updatable = false)
+    @JsonIgnoreProperties({"products_in_store", "order_details"})
     private Store store;
 
-    @MapsId
     @ManyToOne
-    @JoinColumn(name = "FK_Product", nullable = false, updatable = false)
+    @JoinColumn(name = "FK_Product_Detail", nullable = false, updatable = false)
+    @JsonIgnoreProperties({"order_details", "available_stores", "price", "stock"})
     private Product product;
 
+    @Column(nullable = false, updatable = false)
     private int quantity;
 
+    @Column(nullable = false, updatable = false)
+    private double price;
+
     @ManyToOne
-    @JoinColumn(name = "FK_ORDER_ID")
+    @JoinColumn(name = "FK_Order_OrderDetail")
+    @JsonIgnoreProperties(value = {"order_detail_set", "hibernateLazyInitializer", "handler"})
     private Order order;
 
 }

@@ -1,5 +1,6 @@
 package com.laarizag.Inventory.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
 import java.util.List;
@@ -11,6 +12,10 @@ import java.util.List;
 @Setter
 public class GenerateOrderRequest {
 
+    @JsonProperty
+    private Long client;
+
+    @JsonProperty
     private List<GenerateOrderRequestDetail> details;
 
 }

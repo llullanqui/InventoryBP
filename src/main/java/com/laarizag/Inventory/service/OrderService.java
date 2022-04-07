@@ -1,9 +1,11 @@
 package com.laarizag.Inventory.service;
 
+import com.laarizag.Inventory.dto.GenerateOrderRequest;
 import com.laarizag.Inventory.dto.RestockWrapper;
 import com.laarizag.Inventory.exception.ProductOutOfStockException;
 import com.laarizag.Inventory.model.Order;
-import com.laarizag.Inventory.model.Product;
+import com.laarizag.Inventory.model.OrderDetail;
+import com.laarizag.Inventory.repository.OrderDetailRepository;
 import com.laarizag.Inventory.repository.OrderRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
@@ -12,6 +14,9 @@ import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
 import javax.transaction.Transactional;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Service
 @Transactional
@@ -19,22 +24,41 @@ import javax.transaction.Transactional;
 public class OrderService {
 
     private final OrderRepository orderRepository;
+    private final OrderDetailRepository orderDetailRepository;
     private final ProductService productService;
+    private final ClientService clientService;
+    private final StoreService storeService;
+
+    public List<Order> getAllOrders() {
+        return orderRepository.findAll();
+    }
 
     @SneakyThrows
-    public Order generateOrder(Order newOrder) {
-        for(var orderDetail : newOrder.getOrderDetailSet()) {
-            var product = productService.getProductById(orderDetail.getProduct().getId());
-            var difference = product.getStock() - orderDetail.getQuantity();
+    public void generateOrder(GenerateOrderRequest request) {
+        var order = new Order();
+
+        order.setClient(clientService.getClientById(request.getClient()));
+        Set<OrderDetail> orderDetails = new HashSet<>();
+        for(var orderDetail : request.getDetails()) {
+            var product = productService.getProductById(orderDetail.getProduct());
+            var difference = orderDetail.getQuantity() - product.getStock();
             if(difference > 10) throw new ProductOutOfStockException();
             else if(difference > 5) product.setStock(product.getStock() + callTenRestocker().getStock());
-            else callFiveRestocker(product.getId());
+            else if(difference > 0) callFiveRestocker(product.getId());
 
-            productService.removeStock(orderDetail.getProduct().getId(), orderDetail.getQuantity());
+            productService.removeStock(orderDetail.getProduct(), orderDetail.getQuantity());
+            orderDetails.add(OrderDetail.builder()
+                            .order(order)
+                            .product(product)
+                            .quantity(orderDetail.getQuantity())
+                            .price(product.getPrice())
+                            .store(storeService.getStoreById(orderDetail.getStore()))
+                    .build());
         }
-
-        orderRepository.save(newOrder);
-        return newOrder;
+        order.setOrderDetailSet(orderDetails);
+        order.setTotalPrice(order.calculateTotalPrice());
+        orderDetailRepository.saveAll(order.getOrderDetailSet());
+        orderRepository.save(order);
 
     }
 

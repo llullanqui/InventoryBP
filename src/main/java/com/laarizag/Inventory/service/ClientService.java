@@ -21,8 +21,8 @@ public class ClientService {
         return clientRepository.findAll();
     }
 
-    public ClientDto getClientById(Long id) {
-        return mapper.clientToDto(clientRepository.getById(id));
+    public Client getClientById(Long id) {
+        return clientRepository.getById(id);
     }
 
     public void createNewClient(ClientCURequest request) {

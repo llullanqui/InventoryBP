@@ -33,4 +33,8 @@ public class Store implements Serializable {
     @JsonIgnoreProperties({"available_stores","hibernateLazyInitializer", "handler"})
     private Set<Product> productsInStore = new HashSet<>();
 
+    // Por cada tienda se debe guardar el registro de las transacciones realizadas, donde se indique: cliente, producto, cantidad, fecha y hora. (aplique la solución mas genérica posible).
+    @OneToMany(mappedBy = "store")
+    private Set<OrderDetail> orderDetails;
+
 }

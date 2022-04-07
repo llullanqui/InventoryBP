@@ -21,15 +21,12 @@ public class StoreService {
 
     private final StoreRepository storeRepository;
 
-    private final MapStructMapper mapper;
-
     public List<Store> getAllStores() {
         return storeRepository.findAll();
     }
 
-    public StoreDto getStoreById(Long id) {
-        var store = storeRepository.getById(id);
-        return mapper.storeToDto(store);
+    public Store getStoreById(Long id) {
+        return storeRepository.getById(id);
     }
 
     public void addProductToStore(Long storeId, Product product) {
